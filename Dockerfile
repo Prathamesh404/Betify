@@ -1,5 +1,4 @@
-FROM python:2.7-slim
-MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
+FROM python:3.5-slim
 
 ENV INSTALL_PATH /snakeeyes
 RUN mkdir -p $INSTALL_PATH

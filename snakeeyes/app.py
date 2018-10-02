@@ -1,5 +1,5 @@
 from flask import Flask
-
+from snakeeyes.blueprints.page import page
 
 def create_app():
     """
@@ -7,18 +7,13 @@ def create_app():
 
     :return: Flask app
     """
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True) #
 
     app.config.from_object('config.settings')
-    app.config.from_pyfile('settings.py', silent=True)
+    app.config.from_pyfile('settings.py', silent=True) # Not to crash if file doesn't exist.
 
-    @app.route('/')
-    def index():
-        """
-        Render a Hello World response.
+    app.register_blueprint(page)
 
-        :return: Flask response
-        """
-        return 'Hello World!'
+
 
     return app
