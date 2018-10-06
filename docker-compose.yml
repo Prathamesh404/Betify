@@ -1,6 +1,15 @@
 version: '2'
 
 services:
+  postgres:
+    image: 'postgres:9.5'
+    env_file:
+      - '.env'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+
   redis:
     image: 'redis:3.0-alpine'
     command: redis-server --requirepass devpassword
@@ -16,8 +25,8 @@ services:
         --access-logfile -
         --reload
         "snakeeyes.app:create_app()"
-    environment:
-      PYTHONUNBUFFERED: 'true'
+    env_file:
+      - '.env'
     volumes:
       - '.:/snakeeyes'
     ports:
@@ -26,10 +35,11 @@ services:
   celery:
     build: .
     command: celery worker -l info -A snakeeyes.blueprints.contact.tasks
-    #env_file:
-      #- '.env'
+    env_file:
+      - '.env'
     volumes:
       - '.:/snakeeyes'
 
 volumes:
+  postgres:
   redis:
